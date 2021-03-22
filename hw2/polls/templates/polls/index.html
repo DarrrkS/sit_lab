@@ -1,0 +1,37 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+<div>Your Ip Address : <span class="ip"></span></div>
+<div>Your UserAgent : <span class="userAgent"></span></div>
+<div>Your outerWidth : <span class="outerWidth"></span></div>
+<div>Your outerHeight : <span class="outerHeight"></span></div>
+<div>Your screenHeight : <span class="screenHeight"></span></div>
+<div>Your screenWidth : <span class="screenWidth"></span></div>
+
+{% if latest_question_list %}
+    <ul>
+        {% for question in latest_question_list %}
+<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>        {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+      $.getJSON("https://api.ipify.org/?format=json", function(e) {
+        $('.ip').text(e.ip);
+      });
+    });
+    var ua = window.navigator.userAgent;
+    $('.userAgent').text(ua);
+    let screenObj = window.screen;
+    $('.outerWidth').text(window.outerWidth);
+    $('.outerHeight').text(window.outerHeight);
+    $('.screenWidth').text(screenObj.width);
+    $('.screenHeight').text(screenObj.height);
+</script>
